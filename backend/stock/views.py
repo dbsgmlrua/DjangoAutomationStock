@@ -1,0 +1,37 @@
+from django.shortcuts import render
+from django.http import JsonResponse
+from django.views import View
+from stock.classes.MainThread import MainThread, MainThread2
+from multiprocessing import Process, Queue
+from rest_framework.decorators import api_view, permission_classes
+from stock.classes.CreaonChecker import CreonChecker
+
+
+from .serializers import RunningCheckerSerializer
+
+def thread(request):
+    a = MainThread()
+    b = MainThread2()
+    
+    th1 = Process(target=a.startLoop)
+    th2 = Process(target=b.startLoop)
+
+    th1.start()
+    th2.start()
+
+    return render(request, 'tester/home.html')
+
+class Checker(View):
+    def get(self, request, *arg, **karg):
+        checker = CreonChecker()
+        return JsonResponse({
+            'running': checker.check_creon_system()
+        })
+
+class Starter(View):
+    def get(self, request, *arg, **karg):
+        checker = CreonChecker()
+        checker.start_creon_plus()
+        return JsonResponse({
+            'start': 'Success!'
+        })
