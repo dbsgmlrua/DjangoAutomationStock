@@ -1,0 +1,2 @@
+# DjangoAutomationStock
+djangostock
