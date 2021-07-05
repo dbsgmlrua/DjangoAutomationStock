@@ -22,16 +22,25 @@ def thread(request):
     return render(request, 'tester/home.html')
 
 class Checker(View):
-    def get(self, request, *arg, **karg):
+    def get(self, request):
         checker = CreonChecker()
         return JsonResponse({
             'running': checker.check_creon_system()
         })
 
 class Starter(View):
-    def get(self, request, *arg, **karg):
+    def get(self, request):
         checker = CreonChecker()
         checker.start_creon_plus()
         return JsonResponse({
             'start': 'Success!'
+        })
+
+class Balance(View):
+    def get(self, request, code):
+        checker = CreonChecker()
+        stock_name, bought_qty = checker.get_stock_balance(code)
+        return JsonResponse({
+            'stock_name': stock_name,
+            'bought_qty': bought_qty
         })
