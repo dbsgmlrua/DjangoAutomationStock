@@ -5,6 +5,7 @@ from stock.classes.MainThread import MainThread, MainThread2
 from multiprocessing import Process, Queue
 from rest_framework.decorators import api_view, permission_classes
 from stock.classes.CreaonChecker import CreonChecker
+from stock.classes.CreonBalance import CreonBalance
 
 
 from .serializers import RunningCheckerSerializer
@@ -38,7 +39,7 @@ class Starter(View):
 
 class Balance(View):
     def get(self, request, code):
-        checker = CreonChecker()
+        checker = CreonBalance()
         stock_name, bought_qty = checker.get_stock_balance(code)
         return JsonResponse({
             'stock_name': stock_name,
