@@ -38,6 +38,15 @@ class Starter(View):
         })
 
 class Balance(View):
+    def get(self, request):
+        checker = CreonBalance()
+        stocks = checker.get_stock_balance('ALL')
+        return JsonResponse({
+            'stock_name': 'Success!'
+        })
+
+
+class Stock(View):
     def get(self, request, code):
         checker = CreonBalance()
         stock_name, bought_qty = checker.get_stock_balance(code)
