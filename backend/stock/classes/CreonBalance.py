@@ -6,7 +6,6 @@ cpCodeMgr = win32com.client.Dispatch('CpUtil.CpStockCode')
 cpTradeUtil = win32com.client.Dispatch('CpTrade.CpTdUtil')
 cpBalance = win32com.client.Dispatch('CpTrade.CpTd6033')
 cpOrder = win32com.client.Dispatch('CpTrade.CpTd0311') 
-
 class CreonBalance(metaclass=Singleton):
     def get_stock_balance(self, code):
         """인자로 받은 종목의 종목명과 수량을 반환한다."""
