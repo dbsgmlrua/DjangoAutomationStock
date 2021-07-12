@@ -19,7 +19,6 @@ def thread(request):
 
     th1.start()
     th2.start()
-
     return render(request, 'tester/home.html')
 
 class Checker(View):
