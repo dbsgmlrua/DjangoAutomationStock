@@ -1,14 +1,12 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views import View
+import json
 from stock.classes.MainThread import MainThread, MainThread2
 from multiprocessing import Process, Queue
 from rest_framework.decorators import api_view, permission_classes
 from stock.classes.CreaonChecker import CreonChecker
 from stock.classes.CreonBalance import CreonBalance
-
-
-from .serializers import RunningCheckerSerializer
 
 def thread(request):
     a = MainThread()
@@ -39,17 +37,24 @@ class Starter(View):
 class Balance(View):
     def get(self, request):
         checker = CreonBalance()
-        stocks = checker.get_stock_balance('ALL')
+        stocks = checker.get_stock_balance()
         return JsonResponse({
-            'stock_name': 'Success!'
+            'stocks': stocks
         })
 
 
 class Stock(View):
     def get(self, request, code):
         checker = CreonBalance()
-        stock_name, bought_qty = checker.get_stock_balance(code)
+        stock_name, bought_qty = checker.get_stock_info(code)
         return JsonResponse({
             'stock_name': stock_name,
             'bought_qty': bought_qty
         })
+
+class GetOhlc(View):
+    def get(self, request, code, qty):
+        checker = CreonBalance()
+        ohlc = checker.get_ohlc(code, qty).to_json(orient='records')
+        print(ohlc)
+        return JsonResponse(json.loads(ohlc), safe=False)
