@@ -5,9 +5,15 @@ import json
 from stock.classes.MainThread import MainThread, MainThread2
 from multiprocessing import Process, Queue
 from rest_framework.decorators import api_view, permission_classes
-from stock.classes.CreaonChecker import CreonChecker
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from stock.classes.CreaonChecker import CreonChecker, CreonStarter
 from stock.classes.CreonBalance import CreonBalance
 
+#Serializer
+from stock.serializerObjects.HtsChecker import HtsChecker
+from stock.serializerObjects.HtsStarter import HtsStarter
+from rest_framework.response import Response
+from stock.serializers import HtsCheckerSerializer, HtsStarterSerializer, StocksSerializer
 
 def thread(request):
     a = MainThread()
@@ -20,28 +26,32 @@ def thread(request):
     th2.start()
     return render(request, 'tester/home.html')
 
-class Checker(View):
-    def get(self, request):
-        checker = CreonChecker()
-        return JsonResponse({
-            'running': checker.check_creon_system()
-        })
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def Checker(request):
+    checker = CreonChecker()
+    checker = HtsChecker(checker.check_creon_system())
+    serializer = HtsCheckerSerializer(checker)
+    return Response(serializer.data)
 
-class Starter(View):
-    def get(self, request):
-        checker = CreonChecker()
-        checker.start_creon_plus()
-        return JsonResponse({
-            'start': 'Success!'
-        })
 
-class Balance(View):
-    def get(self, request):
-        checker = CreonBalance()
-        stocks = checker.get_stock_balance()
-        return JsonResponse({
-            'stocks': stocks
-        })
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def Starter(request):
+    starter = CreonStarter()
+    starter.start_creon_plus()
+    ss = HtsStarter("Success!")
+    serializer = HtsStarterSerializer(ss)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def Balance(request):
+    balance = CreonBalance()
+    stocks = balance.get_stock_balance()
+    serializer = StocksSerializer(stocks, many=True)
+    return Response(serializer.data)
 
 
 class Stock(View):

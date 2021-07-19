@@ -2,6 +2,8 @@ import os, sys, ctypes
 import win32com.client
 import pandas as pd
 from stock.classes.core.Singleton import Singleton
+from stock.serializerObjects.StockObject import Stock
+
 
 cpCodeMgr = win32com.client.Dispatch('CpUtil.CpStockCode')
 cpTradeUtil = win32com.client.Dispatch('CpTrade.CpTdUtil')
@@ -34,8 +36,9 @@ class CreonBalance(metaclass=Singleton):
             stock_yield = cpBalance.GetDataValue(11, i)   # 수익률
             print(str(i+1) + ' ' + stock_code + '(' + stock_name + ')' + ':' + str(stock_qty))
             
-            stocks.append({'code': stock_code, 'name': stock_name, 
-                'qty': stock_qty, 'yield': stock_yield})
+            stock = Stock(code=stock_code, name=stock_name, qty=stock_qty, yd=stock_yield)
+
+            stocks.append(stock)
         return stocks
 
     def get_stock_info(self, code):
