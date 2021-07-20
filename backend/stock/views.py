@@ -69,3 +69,15 @@ class GetOhlc(View):
         ohlc = checker.get_ohlc(code, qty).to_json(orient='records')
         print(ohlc)
         return JsonResponse(json.loads(ohlc), safe=False)
+
+
+#구매하기
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def buyStock(request):
+    return Response()
+#팔기
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def sellStock(request):
+    return Response()
