@@ -11,6 +11,7 @@ cpOrder = win32com.client.Dispatch('CpTrade.CpTd0311')
 cpOhlc = win32com.client.Dispatch('CpSysDib.StockChart')
 cpStatus = win32com.client.Dispatch('CpUtil.CpCybos')
 
+
 class CreonTradeBase(metaclass=Singleton):
     def CheckBuying(self, code):
         print("CheckBuying!")
