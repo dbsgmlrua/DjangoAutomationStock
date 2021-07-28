@@ -13,7 +13,7 @@ from stock.classes.CreonBalance import CreonBalance
 from stock.serializerObjects.HtsChecker import HtsChecker
 from stock.serializerObjects.HtsStarter import HtsStarter
 from rest_framework.response import Response
-from stock.serializers import HtsCheckerSerializer, HtsStarterSerializer, StocksSerializer
+from stock.serializers import HtsCheckerSerializer, HtsStarterSerializer, BalanceSerializer
 
 def thread(request):
     a = MainThread()
@@ -50,7 +50,7 @@ def Starter(request):
 def Balance(request):
     balance = CreonBalance()
     stocks = balance.get_stock_balance()
-    serializer = StocksSerializer(stocks, many=True)
+    serializer = BalanceSerializer(stocks, many=True)
     return Response(serializer.data)
 
 

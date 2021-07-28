@@ -8,14 +8,13 @@ class HtsStarterSerializer(serializers.Serializer):
 class HtsCheckerSerializer(serializers.Serializer):
     running = serializers.BooleanField()
 
-class StocksSerializer(serializers.Serializer):
+class BalanceSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=10)
     name = serializers.CharField(max_length=10)
     qty = serializers.IntegerField()
     yd = serializers.DecimalField()
 
-class CheckingStocksSerializer(serializers.ModelSerializer):
+class StocksSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stocks
         fields = '__all__'
-        
