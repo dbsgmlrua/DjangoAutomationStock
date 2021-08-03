@@ -2,7 +2,7 @@ from threading import Thread
 import time
 from stock.classes.core.Singleton import Singleton
 
-class MThread(metaclass=Singleton):
+class MThread:
     NotLoop = True
     
     def startLoop(self):

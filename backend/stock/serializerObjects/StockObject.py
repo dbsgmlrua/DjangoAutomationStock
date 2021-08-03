@@ -7,10 +7,11 @@ class Stock(object):
         self.yd = yd
         
 class Balance(object):
-    def __init__(self, name, balance, value, profit, qty, yld):
+    def __init__(self, name, balance, value, profit, qty, yld, stocks):
         self.name = name
         self.balance = balance
         self.value = value
         self.profit = profit
         self.qty = qty
         self.yld = yld
+        self.stocks = stocks

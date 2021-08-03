@@ -21,10 +21,22 @@ class CreonBalance(metaclass=Singleton):
         cpBalance.SetInputValue(0, acc)         # 계좌번호
         cpBalance.SetInputValue(1, accFlag[0])  # 상품구분 - 주식 상품 중 첫번째
         cpBalance.SetInputValue(2, 50)          # 요청 건수(최대 50)
-        cpBalance.BlockRequest()     
+        cpBalance.BlockRequest()    
+        stocks = []
+        for i in range(cpBalance.GetHeaderValue(7)):
+            stock_code = cpBalance.GetDataValue(12, i)  # 종목코드
+            stock_name = cpBalance.GetDataValue(0, i)   # 종목명
+            stock_qty = cpBalance.GetDataValue(15, i)   # 수량
+            stock_yield = cpBalance.GetDataValue(11, i)   # 수익률
+            print(str(i+1) + ' ' + stock_code + '(' + stock_name + ')' + ':' + str(stock_qty))
+            
+            stock = Stock(code=stock_code, name=stock_name, qty=stock_qty, yd=stock_yield)
+
+            stocks.append(stock) 
         
-        balance = Balance(name=cpBalance.GetHeaderValue(0), balance=cpBalance.GetHeaderValue(1), value=cpBalance.GetHeaderValue(3), profit=cpBalance.GetHeaderValue(4), qty=cpBalance.GetHeaderValue(7), yld=cpBalance.GetHeaderValue(8))
+        balance = Balance(name=cpBalance.GetHeaderValue(0), balance=cpBalance.GetHeaderValue(1), value=cpBalance.GetHeaderValue(3), profit=cpBalance.GetHeaderValue(4), qty=cpBalance.GetHeaderValue(7), yld=cpBalance.GetHeaderValue(8), stocks=stocks)
         return balance
+        
     def get_stock_balance(self):
         """인자로 받은 종목의 종목명과 수량을 반환한다."""
         cpTradeUtil.TradeInit()

@@ -13,7 +13,7 @@ from stock.classes.CreonBalance import CreonBalance
 from stock.serializerObjects.HtsChecker import HtsChecker
 from stock.serializerObjects.HtsStarter import HtsStarter
 from rest_framework.response import Response
-from stock.serializers import HtsCheckerSerializer, HtsStarterSerializer, BalanceSerializer, BalanceStockSerializer
+from stock.serializers import HtsCheckerSerializer, HtsStarterSerializer
 
 def thread(request):
     a = MainThread()
@@ -44,41 +44,11 @@ def Starter(request):
     serializer = HtsStarterSerializer(ss)
     return Response(serializer.data)
 
-
-@api_view(['GET'])
+#감시시작
+@api_view(['POST'])
 @permission_classes([AllowAny])
-def BalanceStock(request):
-    balance = CreonBalance()
-    stocks = balance.get_stock_balance()
-    serializer = BalanceStockSerializer(stocks, many=True)
-    return Response(serializer.data)
-
-
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def Balance(request):
-    balance = CreonBalance()
-    stocks = balance.get_stock_balance()
-    serializer = BalanceStockSerializer(stocks, many=True)
-    return Response(serializer.data)
-
-
-class Stock(View):
-    def get(self, request, code):
-        checker = CreonBalance()
-        stock_name, bought_qty = checker.get_stock_info(code)
-        return JsonResponse({
-            'stock_name': stock_name,
-            'bought_qty': bought_qty
-        })
-
-class GetOhlc(View):
-    def get(self, request, code, qty):
-        checker = CreonBalance()
-        ohlc = checker.get_ohlc(code, qty).to_json(orient='records')
-        print(ohlc)
-        return JsonResponse(json.loads(ohlc), safe=False)
-
+def buyStock(request):
+    return Response()
 
 #구매하기
 @api_view(['POST'])
