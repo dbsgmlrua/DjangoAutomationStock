@@ -5,7 +5,6 @@ import time, calendar
 from stock.classes.core.Singleton import Singleton
 from stock.serializerObjects.StockObject import Stock, Balance
 
-
 cpCodeMgr = win32com.client.Dispatch('CpUtil.CpStockCode')
 cpTradeUtil = win32com.client.Dispatch('CpTrade.CpTdUtil')
 cpBalance = win32com.client.Dispatch('CpTrade.CpTd6033')
