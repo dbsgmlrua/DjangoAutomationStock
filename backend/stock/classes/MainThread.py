@@ -3,6 +3,7 @@ from threading import Thread
 import time
 from stock.classes.MyBalance import MyBalance
 
+
 class MainThread(MThread):
     def InfiniteLoop(self):
         # t1 = MyBalance()
