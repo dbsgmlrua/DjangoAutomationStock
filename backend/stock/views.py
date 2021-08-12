@@ -44,10 +44,16 @@ def Starter(request):
     serializer = HtsStarterSerializer(ss)
     return Response(serializer.data)
 
-#감시시작
-@api_view(['POST'])
+#주식리스트
+@api_view(['GET'])
 @permission_classes([AllowAny])
-def buyStock(request):
+def geeStockList(request):
+    return Response()
+
+#주식디테일
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def geeStockDetail(request):
     return Response()
 
 #구매하기
@@ -55,8 +61,12 @@ def buyStock(request):
 @permission_classes([AllowAny])
 def buyStock(request):
     return Response()
+
 #팔기
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def sellStock(request):
     return Response()
+
+
+### 테스트 api ###
