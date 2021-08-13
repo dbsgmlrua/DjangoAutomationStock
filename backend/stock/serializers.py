@@ -6,3 +6,8 @@ class HtsStarterSerializer(serializers.Serializer):
 
 class HtsCheckerSerializer(serializers.Serializer):
     running = serializers.BooleanField()
+
+class StockListSerializer(serializers.Serializer):
+    code = serializers.CharField(max_length=10)
+    name = serializers.CharField(max_length=10)
+    market = serializers.CharField(max_length=10)

@@ -5,7 +5,13 @@ class Stock(object):
         self.name = name
         self.qty = qty
         self.yd = yd
-        
+
+class StockList(object):
+    def __init__(self, code, name, market):
+        self.code = code
+        self.name = name
+        self.market = market
+
 class Balance(object):
     def __init__(self, name, balance, value, profit, qty, yld, stocks):
         self.name = name
