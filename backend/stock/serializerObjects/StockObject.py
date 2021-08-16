@@ -7,9 +7,10 @@ class Stock(object):
         self.yd = yd
 
 class StockList(object):
-    def __init__(self, code, name, market):
+    def __init__(self, code, name, stdprice, market):
         self.code = code
         self.name = name
+        self.stdprice = stdprice
         self.market = market
 
 class Balance(object):

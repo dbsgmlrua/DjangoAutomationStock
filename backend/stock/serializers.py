@@ -10,4 +10,5 @@ class HtsCheckerSerializer(serializers.Serializer):
 class StockListSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=10)
     name = serializers.CharField(max_length=10)
-    market = serializers.CharField(max_length=10)
+    stdprice = serializers.IntegerField()
+    market = serializers.IntegerField()

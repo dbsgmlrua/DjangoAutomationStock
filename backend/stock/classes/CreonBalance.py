@@ -3,7 +3,7 @@ import win32com.client
 import pandas as pd
 import time, calendar
 from stock.classes.core.Singleton import Singleton
-from stock.serializerObjects.StockObject import Stock, Balance
+from stock.serializerObjects.StockObject import Stock, StockList, Balance
 
 cpCodeMgr = win32com.client.Dispatch('CpUtil.CpStockCode')
 cpTradeUtil = win32com.client.Dispatch('CpTrade.CpTdUtil')
@@ -11,8 +11,29 @@ cpBalance = win32com.client.Dispatch('CpTrade.CpTd6033')
 cpOrder = win32com.client.Dispatch('CpTrade.CpTd0311') 
 cpOhlc = win32com.client.Dispatch('CpSysDib.StockChart')
 cpStatus = win32com.client.Dispatch('CpUtil.CpCybos')
+objCpCodeMgr = win32com.client.Dispatch("CpUtil.CpCodeMgr")
 
 class CreonBalance(metaclass=Singleton):
+    def get_stockList(self):
+        codeList = objCpCodeMgr.GetStockListByMarket(1) #거래소
+        codeList2 = objCpCodeMgr.GetStockListByMarket(2) #코스닥
+
+        stocklist = []
+        for i, code in enumerate(codeList):
+            name = objCpCodeMgr.CodeToName(code)
+            stdPrice = objCpCodeMgr.GetStockStdPrice(code)
+            stock = StockList(code, name, stdPrice, 1)
+            stocklist.append(stock)
+
+        for i, code in enumerate(codeList2):
+            secondCode = objCpCodeMgr.GetStockSectionKind(code)
+            name = objCpCodeMgr.CodeToName(code)
+            stdPrice = objCpCodeMgr.GetStockStdPrice(code)
+            stock = StockList(code, name, stdPrice, 2)
+            stocklist.append(stock)
+        
+        return stocklist
+
     def get_balance(self):
         cpTradeUtil.TradeInit()
         acc = cpTradeUtil.AccountNumber[0]      # 계좌번호

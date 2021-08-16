@@ -13,7 +13,7 @@ from stock.classes.CreonBalance import CreonBalance
 from stock.serializerObjects.HtsChecker import HtsChecker
 from stock.serializerObjects.HtsStarter import HtsStarter
 from rest_framework.response import Response
-from stock.serializers import HtsCheckerSerializer, HtsStarterSerializer
+from stock.serializers import HtsCheckerSerializer, HtsStarterSerializer, StockListSerializer
 
 def thread(request):
     a = MainThread()
@@ -47,13 +47,16 @@ def Starter(request):
 #주식리스트
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def geeStockList(request):
-    return Response()
+def getStockList(request):
+    balance = CreonBalance()
+    stockList = balance.get_stockList()
+    serializer = StockListSerializer(stockList, many=True)
+    return Response(serializer.data)
 
 #주식디테일
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def geeStockDetail(request):
+def getStockDetail(request):
     return Response()
 
 #구매하기
