@@ -22,3 +22,17 @@ class Balance(object):
         self.qty = qty
         self.yld = yld
         self.stocks = stocks
+
+class StockDetail(object):
+    def __init__(self, name, code, ohlc):
+        self.name = name
+        self.code = code
+        self.ohlclist = ohlclist
+
+class OhlcDetail(object):
+    def __init__(self, date, o, h, l, c):
+        self.date = date
+        self.o = o
+        self.h = h
+        self.l = l
+        self.c = c

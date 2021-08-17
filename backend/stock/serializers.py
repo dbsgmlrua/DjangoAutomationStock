@@ -9,6 +9,18 @@ class HtsCheckerSerializer(serializers.Serializer):
 
 class StockListSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=10)
-    name = serializers.CharField(max_length=10)
+    name = serializers.CharField(max_length=100)
     stdprice = serializers.IntegerField()
     market = serializers.IntegerField()
+
+class StockDetailSerializer(serializers.Serializer):
+    code = serializers.CharField(max_length=10)
+    name = serializers.CharField(max_length=100)
+    ohlclist = OhlcSerializer(many=True)
+
+class OhlcSerializer(serializers.Serializer):
+    date = serializers.IntegerField()
+    o = serializers.IntegerField()
+    h = serializers.IntegerField()
+    l = serializers.IntegerField()
+    c = serializers.IntegerField()
