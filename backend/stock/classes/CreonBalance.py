@@ -3,7 +3,7 @@ import win32com.client
 import pandas as pd
 import time, calendar
 from stock.classes.core.Singleton import Singleton
-from stock.serializerObjects.StockObject import Stock, StockList, Balance
+from stock.serializerObjects.StockObject import Stock, StockList, Balance, StockDetail, OhlcDetail
 
 cpCodeMgr = win32com.client.Dispatch('CpUtil.CpStockCode')
 cpTradeUtil = win32com.client.Dispatch('CpTrade.CpTdUtil')
@@ -33,6 +33,16 @@ class CreonBalance(metaclass=Singleton):
             stocklist.append(stock)
         
         return stocklist
+    
+    def getStockDetail(self, code):
+        ohlcList = []
+        for i in range(10):
+            ohlcgraph = OhlcDetail(i,1,1,1,1)
+            ohlcList.append(ohlcgraph)
+        
+        stockDetail = StockDetail("Name", code, ohlcList)
+        
+        return stockDetail
 
     def get_balance(self):
         cpTradeUtil.TradeInit()

@@ -27,7 +27,7 @@ class StockDetail(object):
     def __init__(self, name, code, ohlc):
         self.name = name
         self.code = code
-        self.ohlclist = ohlclist
+        self.ohlclist = ohlc
 
 class OhlcDetail(object):
     def __init__(self, date, o, h, l, c):
