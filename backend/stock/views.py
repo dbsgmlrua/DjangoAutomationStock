@@ -57,7 +57,11 @@ def getStockList(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def getStockDetail(request, code):
-    print(request.query_params.get('ord'))
+    isPeriodType = request.query_params.get('isPeriodType')
+    fromDate = request.query_params.get('fromDate')
+    toDate = request.query_params.get('toDate')
+    dwm = request.query_params.get('dwm')
+    
     balance = CreonBalance()
     detail = balance.getStockDetail(code)
     serializer = StockDetailSerializer(detail)
