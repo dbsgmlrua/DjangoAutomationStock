@@ -23,4 +23,4 @@ class OhlcSerializer(serializers.Serializer):
 class StockDetailSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=10)
     name = serializers.CharField(max_length=100)
-    ohlclist = OhlcSerializer(many=True)
+    # ohlclist = OhlcSerializer(many=True)

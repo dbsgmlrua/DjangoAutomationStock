@@ -35,12 +35,7 @@ class CreonBalance(metaclass=Singleton):
         return stocklist
     
     def getStockDetail(self, code):
-        ohlcList = []
-        for i in range(10):
-            ohlcgraph = OhlcDetail(i,1,1,1,1)
-            ohlcList.append(ohlcgraph)
-        
-        stockDetail = StockDetail("Name", code, ohlcList)
+        stockDetail = StockDetail("Name", code)
         
         return stockDetail
 

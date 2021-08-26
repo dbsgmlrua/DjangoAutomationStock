@@ -24,10 +24,10 @@ class Balance(object):
         self.stocks = stocks
 
 class StockDetail(object):
-    def __init__(self, name, code, ohlc):
+    def __init__(self, name, code):
         self.name = name
         self.code = code
-        self.ohlclist = ohlc
+        # self.ohlclist = ohlc
 
 class OhlcDetail(object):
     def __init__(self, date, o, h, l, c):
