@@ -73,7 +73,7 @@ def getStockOhlc(request, code):
     dwm = request.query_params.get('dwm')
     
     balance = CreonBalance()
-    detail = balance.getStockDetail(code)
+    detail = balance.get_ohlc(code, 500)
     serializer = StockDetailSerializer(detail)
     return Response(serializer.data)
 

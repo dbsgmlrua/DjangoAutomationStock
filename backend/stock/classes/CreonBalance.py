@@ -12,6 +12,7 @@ cpOrder = win32com.client.Dispatch('CpTrade.CpTd0311')
 cpOhlc = win32com.client.Dispatch('CpSysDib.StockChart')
 cpStatus = win32com.client.Dispatch('CpUtil.CpCybos')
 objCpCodeMgr = win32com.client.Dispatch("CpUtil.CpCodeMgr")
+objStockMst = win32com.client.Dispatch("DsCbo1.StockMst")
 
 class CreonBalance(metaclass=Singleton):
     def get_stockList(self):
@@ -34,8 +35,24 @@ class CreonBalance(metaclass=Singleton):
         
         return stocklist
     
-    def getStockDetail(self, code):
-        stockDetail = StockDetail("Name", code)
+    def getStockDetail(self, code):        
+        objStockMst.SetInputValue(0, code)
+        objStockMst.BlockRequest()
+
+        code = objStockMst.GetHeaderValue(0)  # 종목코드
+        name = objStockMst.GetHeaderValue(1)  # 종목명
+        time = objStockMst.GetHeaderValue(4)  # 시간
+        cprice = objStockMst.GetHeaderValue(11)  # 종가
+        diff = objStockMst.GetHeaderValue(12)  # 대비
+        op = objStockMst.GetHeaderValue(13)  # 시가
+        high = objStockMst.GetHeaderValue(14)  # 고가
+        low = objStockMst.GetHeaderValue(15)  # 저가
+        offer = objStockMst.GetHeaderValue(16)  # 매도호가
+        bid = objStockMst.GetHeaderValue(17)  # 매수호가
+        vol = objStockMst.GetHeaderValue(18)  # 거래량
+        vol_value = objStockMst.GetHeaderValue(19)  # 거래대금
+
+        stockDetail = StockDetail(code, name, time, cprice, diff, op, high, low, offer, bid, vol, vol_value)
         
         return stockDetail
 
