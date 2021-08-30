@@ -6,14 +6,15 @@ from stock.classes.MainThread import MainThread, MainThread2
 from multiprocessing import Process, Queue
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.views import exception_handler
 from stock.classes.CreaonChecker import CreonChecker, CreonStarter
 from stock.classes.CreonBalance import CreonBalance
-
 #Serializer
 from stock.serializerObjects.HtsChecker import HtsChecker
 from stock.serializerObjects.HtsStarter import HtsStarter
 from rest_framework.response import Response
 from stock.serializers import HtsCheckerSerializer, HtsStarterSerializer, StockListSerializer, StockDetailSerializer
+from stock.utils import CustomApiException
 
 def thread(request):
     a = MainThread()
@@ -91,3 +92,10 @@ def sellStock(request):
 
 
 ### 테스트 api ###
+
+
+#exception
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def customExceptionHandler(request):
+    raise CustomApiException(404, "dmdel")
