@@ -9,12 +9,16 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import exception_handler
 from stock.classes.CreaonChecker import CreonChecker, CreonStarter
 from stock.classes.CreonBalance import CreonBalance
+from stock.classes.exceptions.StockExceptionHandler import CustomApiException, ErrorCode
+
 #Serializer
 from stock.serializerObjects.HtsChecker import HtsChecker
 from stock.serializerObjects.HtsStarter import HtsStarter
 from rest_framework.response import Response
 from stock.serializers import HtsCheckerSerializer, HtsStarterSerializer, StockListSerializer, StockDetailSerializer
-from stock.utils import CustomApiException
+
+#TestCode
+from stock.classes.test.TestCodeDummy import ExceptionTestChecker
 
 def thread(request):
     a = MainThread()
@@ -98,4 +102,5 @@ def sellStock(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def customExceptionHandler(request):
+    ExceptionTestChecker("cpzm")
     raise CustomApiException(404, "dmdel")

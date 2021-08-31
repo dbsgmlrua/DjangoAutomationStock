@@ -1,4 +1,5 @@
 import ReactApexCharts from 'react-apexcharts'
+import React from 'react'
 
 const Dashboard = () => {
     const state = {
