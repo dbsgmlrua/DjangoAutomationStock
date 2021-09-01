@@ -28,31 +28,6 @@ def custom_exception_handler(exc, context):
 def raise_exception_by_errorcode(errorcode):
     detail = None
     status_code = None
-    print(ErrorCode.__members__)
-    print(errorcode.name)
-    # if errorcode == ErrorCode.NO_ADMIN:
-    #     status_code = 500
-    #     detail = errorcode.name
-    # elif errorcode == ErrorCode.NOT_CONNECTED:
-    #     status_code = 500
-    #     detail = errorcode.name
-    # elif errorcode == ErrorCode.NOT_TRADE_INIT:
-    #     status_code = 500
-    #     detail = errorcode.name
-    # elif errorcode == ErrorCode.TOO_MANY_REQUEST:
-    #     status_code = 500
-    #     detail = errorcode.name
-    # elif errorcode == ErrorCode.REQUEST_ERROR:
-    #     status_code = 500
-    #     detail = errorcode.name
-    # elif errorcode == ErrorCode.INTERNAL_SERVER_ERROR:
-    #     status_code = 500
-    #     detail = errorcode.name
-    # else :
-    #     status_code = 500
-    #     detail = "INTERNAL_SERVER_ERROR"
-
-    
 
     if errorcode.name in ErrorCode.__members__:
         status_code = 500
@@ -62,7 +37,6 @@ def raise_exception_by_errorcode(errorcode):
         detail = ErrorCode.INTERNAL_SERVER_ERROR.name
 
     raise CustomApiException(status_code, detail)
-
 
 class CustomApiException(APIException):
     #public fields

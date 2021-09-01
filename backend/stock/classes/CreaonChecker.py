@@ -5,6 +5,7 @@ import time
 import json
 from django.core.exceptions import ImproperlyConfigured
 from pywinauto import application
+from stock.classes.exceptions.StockExceptionHandler import raise_exception_by_errorcode, ErrorCode
 
 # 크레온 플러스 공통 OBJECT
 cpCodeMgr = win32com.client.Dispatch('CpUtil.CpStockCode')
@@ -43,6 +44,10 @@ class CreonChecker():
             print('check_creon_system() : init trade -> FAILED')
             return False
         return True
+    
+    def check_creon_nRet(nRet):
+        if nRet == 4:
+            raise_exception_by_errorcode(ErrorCode.TOO_MANY_REQUEST)
 
 class CreonStarter():
     def start_creon_plus(self):       
