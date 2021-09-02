@@ -7,7 +7,7 @@ urlpatterns = [
     # path('starter', Starter),
     # path('check', Checker),
     path('stocks', getStockList),
-    path('stocks/exceptions', customExceptionHandler),
+    path('exceptions', customExceptionHandler),
     path('stocks/<slug:code>', getStockDetail),
     path('stocks/<slug:code>/ohlc', getStockOhlc)
     

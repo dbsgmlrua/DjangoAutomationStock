@@ -17,7 +17,8 @@ class ErrorCode(Enum):
 
 def custom_exception_handler(exc, context):
     response = exception_handler(exc, context)
-
+    print(exc)
+    print(context)
     if response is not None:
         response.data['status_code'] = response.status_code
         response.data['message'] = response.data['detail']

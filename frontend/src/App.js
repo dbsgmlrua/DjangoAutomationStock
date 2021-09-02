@@ -4,6 +4,7 @@ import Home from './Home';
 import Login from './Login';
 import NotFound from './NotFound';
 import Dashboard from './Dashboard';
+import ExceptionTest from './ExceptionTest';
 
 function App() {
   return (
@@ -16,6 +17,9 @@ function App() {
             </Route>
             <Route exact path="/hello">
               <Home />
+            </Route>
+            <Route exact path="/exception">
+              <ExceptionTest />
             </Route>
             <Route exact path="/login">
               <Login />

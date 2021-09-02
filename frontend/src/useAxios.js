@@ -17,8 +17,12 @@ const useGetAxios = (url) => {
             setError(null);
         })
         .catch((err =>{
+            console.log(err.response.data);
             setIsPending(false);
-            setError(err.message);
+            if(err.response.data.message != null)
+                setError(err.response.data.message);
+            else
+                setError(err.message);
         }));
     },[url]);
 

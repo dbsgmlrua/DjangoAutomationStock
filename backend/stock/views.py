@@ -39,7 +39,6 @@ def Checker(request):
     serializer = HtsCheckerSerializer(checker)
     return Response(serializer.data)
 
-
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def Starter(request):
@@ -103,4 +102,4 @@ def sellStock(request):
 @permission_classes([AllowAny])
 def customExceptionHandler(request):
     ExceptionTestChecker("cpzm")
-    raise CustomApiException(404, "dmdel")
+    raise CustomApiException(500, "dmdel")

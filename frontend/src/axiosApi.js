@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios'
 import { Redirect } from 'react-router';
 
-const baseURL = 'http://127.0.0.1:8000/api/'
+const baseURL = 'http://127.0.0.1:8000/'
 
 const axiosInstance = axios.create({
     baseURL: baseURL,
@@ -21,7 +21,7 @@ axiosInstance.interceptors.response.use(
 
         console.log(error.response);
         // Prevent infinite loops
-        if (error.response.status === 401 && originalRequest.url === baseURL+'token/refresh/') {
+        if (error.response.status === 401 && originalRequest.url === baseURL+'api/token/refresh/') {
             window.location.href = '/login/';
             return Promise.reject(error);
         }
@@ -41,7 +41,7 @@ axiosInstance.interceptors.response.use(
 
                     if (tokenParts.exp > now) {
                         return axiosInstance
-                        .post('/token/refresh/', {refresh: refreshToken})
+                        .post('/api/token/refresh/', {refresh: refreshToken})
                         .then((response) => {
             
                             localStorage.setItem('access_token', response.data.access);
