@@ -6,7 +6,6 @@ import json
 from django.core.exceptions import ImproperlyConfigured
 from pywinauto import application
 from stock.classes.exceptions.StockExceptionHandler import raise_exception_by_errorcode, ErrorCode
-
 # 크레온 플러스 공통 OBJECT
 cpCodeMgr = win32com.client.Dispatch('CpUtil.CpStockCode')
 cpStatus = win32com.client.Dispatch('CpUtil.CpCybos')
