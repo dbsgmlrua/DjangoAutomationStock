@@ -42,8 +42,8 @@ def Checker(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def Starter(request):
-    # starter = CreonStarter()
-    # starter.start_creon_plus()
+    starter = CreonStarter()
+    starter.start_creon_plus()
     ss = HtsStarter("Success!")
     serializer = HtsStarterSerializer(ss)
     return Response(serializer.data)

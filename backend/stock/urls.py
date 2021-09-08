@@ -4,8 +4,8 @@ from .views import Starter, Checker, getStockList, getStockDetail, getStockOhlc,
 
 urlpatterns = [
     path('test', views.thread, name='test-home'),
-    # path('starter', Starter),
-    # path('check', Checker),
+    path('starter', Starter),
+    path('check', Checker),
     path('stocks', getStockList),
     path('exceptions', customExceptionHandler),
     path('stocks/<slug:code>', getStockDetail),
