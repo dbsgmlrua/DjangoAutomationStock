@@ -9,13 +9,14 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import exception_handler
 from stock.classes.CreaonChecker import CreonChecker, CreonStarter
 from stock.classes.CreonBalance import CreonBalance
+from stock.classes.CreonStockDetail import CreonStockDetail
 from stock.classes.exceptions.StockExceptionHandler import CustomApiException, ErrorCode
 
 #Serializer
 from stock.serializerObjects.HtsChecker import HtsChecker
 from stock.serializerObjects.HtsStarter import HtsStarter
 from rest_framework.response import Response
-from stock.serializers import HtsCheckerSerializer, HtsStarterSerializer, StockListSerializer, StockDetailSerializer
+from stock.serializers import HtsCheckerSerializer, HtsStarterSerializer, StockListSerializer, StockDetailSerializer, MyBalanceSerializer
 
 #TestCode
 from stock.classes.test.TestCodeDummy import ExceptionTestChecker
@@ -52,7 +53,7 @@ def Starter(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def getStockList(request):
-    balance = CreonBalance()
+    balance = CreonStockDetail()
     stockList = balance.get_stockList()
     serializer = StockListSerializer(stockList, many=True)
     return Response(serializer.data)
@@ -61,8 +62,7 @@ def getStockList(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def getStockDetail(request, code):
-    
-    balance = CreonBalance()
+    balance = CreonStockDetail()
     detail = balance.getStockDetail(code)
     serializer = StockDetailSerializer(detail)
     return Response(serializer.data)
@@ -76,9 +76,18 @@ def getStockOhlc(request, code):
     toDate = request.query_params.get('toDate')
     dwm = request.query_params.get('dwm')
     
-    balance = CreonBalance()
+    balance = CreonStockDetail()
     detail = balance.get_ohlc(code, 500)
     serializer = StockDetailSerializer(detail)
+    return Response(serializer.data)
+
+#주식현재계좌
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def getBalance(request):
+    classes = CreonBalance()
+    balance = classes.get_balance()
+    serializer = MyBalanceSerializer(balance)
     return Response(serializer.data)
 
 #구매하기

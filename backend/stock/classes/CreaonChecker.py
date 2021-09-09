@@ -11,7 +11,6 @@ cpCodeMgr = win32com.client.Dispatch('CpUtil.CpStockCode')
 cpStatus = win32com.client.Dispatch('CpUtil.CpCybos')
 cpTradeUtil = win32com.client.Dispatch('CpTrade.CpTdUtil')
 cpStock = win32com.client.Dispatch('DsCbo1.StockMst')
-cpOhlc = win32com.client.Dispatch('CpSysDib.StockChart')
 cpBalance = win32com.client.Dispatch('CpTrade.CpTd6033')
 cpCash = win32com.client.Dispatch('CpTrade.CpTdNew5331A')
 cpOrder = win32com.client.Dispatch('CpTrade.CpTd0311')  
@@ -28,6 +27,7 @@ def get_secret(setting, secrets=secrets):
 
 class CreonChecker():
     def check_creon_system(self):
+        print('check_creon_system()')
         """크레온 플러스 시스템 연결 상태를 점검한다."""
         if not ctypes.windll.shell32.IsUserAnAdmin():
             print('check_creon_system() : admin user -> FAILED')
@@ -44,7 +44,7 @@ class CreonChecker():
             return False
         return True
     
-    def check_creon_nRet(nRet):
+    def check_creon_nRet(self, nRet):
         if nRet == 4:
             raise_exception_by_errorcode(ErrorCode.TOO_MANY_REQUEST)
 

@@ -1,7 +1,8 @@
 class MyBalanceObject(object):
-    def __init__(self, totalBalance, totalProfit, stockList):
-        self.totalBalance = totalBalance
-        self.totalProfit = totalProfit
+    def __init__(self, balance, value, profit, stockList):
+        self.balance = balance
+        self.value = value
+        self.profit = profit
         self.stockList = stockList
 
 class MyBalanceStockListObject(object):

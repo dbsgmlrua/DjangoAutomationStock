@@ -4,6 +4,7 @@ import win32com.client
 import pandas as pd
 import os
 from stock.serializerObjects.StockObject import StockList, StockDetail, OhlcDetail
+from stock.classes.core.Singleton import Singleton
 
 objCpCodeMgr = win32com.client.Dispatch("CpUtil.CpCodeMgr")
 objStockMst = win32com.client.Dispatch("DsCbo1.StockMst")

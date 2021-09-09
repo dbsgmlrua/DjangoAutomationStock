@@ -5,6 +5,7 @@ import time, calendar
 from stock.classes.core.Singleton import Singleton
 from stock.serializerObjects.StockObject import Stock, StockList, Balance, StockDetail, OhlcDetail
 
+from stock.serializerObjects.MyBalanceObject import MyBalanceObject, MyBalanceStockListObject
 cpCodeMgr = win32com.client.Dispatch('CpUtil.CpStockCode')
 cpTradeUtil = win32com.client.Dispatch('CpTrade.CpTdUtil')
 cpBalance = win32com.client.Dispatch('CpTrade.CpTd6033')
@@ -23,17 +24,16 @@ class CreonBalance(metaclass=Singleton):
         cpBalance.BlockRequest()    
         stocks = []
         for i in range(cpBalance.GetHeaderValue(7)):
-            stock_code = cpBalance.GetDataValue(12, i)  # 종목코드
             stock_name = cpBalance.GetDataValue(0, i)   # 종목명
+            stock_price = cpBalance.GetDataValue(9, i)  # 현재가
             stock_qty = cpBalance.GetDataValue(15, i)   # 수량
             stock_yield = cpBalance.GetDataValue(11, i)   # 수익률
-            print(str(i+1) + ' ' + stock_code + '(' + stock_name + ')' + ':' + str(stock_qty))
-            
-            stock = Stock(code=stock_code, name=stock_name, qty=stock_qty, yd=stock_yield)
+            # print(str(i+1) + ' ' + stock_code + '(' + stock_name + ')' + ':' + str(stock_qty))
+            stock = MyBalanceStockListObject(name=stock_name, qty=stock_qty, profit=stock_yield)
 
             stocks.append(stock) 
         
-        balance = Balance(name=cpBalance.GetHeaderValue(0), balance=cpBalance.GetHeaderValue(1), value=cpBalance.GetHeaderValue(3), profit=cpBalance.GetHeaderValue(4), qty=cpBalance.GetHeaderValue(7), yld=cpBalance.GetHeaderValue(8), stocks=stocks)
+        balance = MyBalanceObject(balance=cpBalance.GetHeaderValue(1), value=cpBalance.GetHeaderValue(3), profit=cpBalance.GetHeaderValue(4), stockList=stocks)
         return balance
         
     def get_stock_balance(self):
