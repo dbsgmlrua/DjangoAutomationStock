@@ -1,20 +1,10 @@
 import os, sys, ctypes
-import win32com.client
-import os
-import time
 import json
-from django.core.exceptions import ImproperlyConfigured
+import time
 from pywinauto import application
+from django.core.exceptions import ImproperlyConfigured
 
-# 크레온 플러스 공통 OBJECT
-cpCodeMgr = win32com.client.Dispatch('CpUtil.CpStockCode')
-cpStatus = win32com.client.Dispatch('CpUtil.CpCybos')
-cpTradeUtil = win32com.client.Dispatch('CpTrade.CpTdUtil')
-cpStock = win32com.client.Dispatch('DsCbo1.StockMst')
-cpOhlc = win32com.client.Dispatch('CpSysDib.StockChart')
-cpBalance = win32com.client.Dispatch('CpTrade.CpTd6033')
-cpCash = win32com.client.Dispatch('CpTrade.CpTdNew5331A')
-cpOrder = win32com.client.Dispatch('CpTrade.CpTd0311')  
+from stock.classes.CreonClients import CreonClients
 
 with open(os.path.join(os.path.dirname(__file__), "secrets.json"), 'r') as f:
     secrets = json.loads(f.read())
@@ -33,7 +23,9 @@ class CreonChecker():
         if not ctypes.windll.shell32.IsUserAnAdmin():
             print('check_creon_system() : admin user -> FAILED')
             return False
-    
+        creonClients = CreonClients()
+        cpStatus = getattr(creonClients, 'CpCybos')
+        cpTradeUtil = getattr(creonClients, 'CpTdUtil')
         # 연결 여부 체크
         if (cpStatus.IsConnect == 0):
             print('check_creon_system() : connect to server -> FAILED')
@@ -53,3 +45,4 @@ class CreonChecker():
 
         app = application.Application()
         app.start("C:\CREON\STARTER\coStarter.exe /prj:cp /id:{fId} /pwd:{fPwd} /pwdcert:{fPwdCert} /autostart".format(fId=get_secret("ID"), fPwd=get_secret("PW"), fPwdCert=get_secret("PWDCERT")))
+

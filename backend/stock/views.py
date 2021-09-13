@@ -5,7 +5,8 @@ from stock.classes.MainThread import MainThread, MainThread2
 from multiprocessing import Process, Queue
 from rest_framework.decorators import api_view, permission_classes
 #stock.classes
-from stock.classes.CreaonChecker import CreonChecker
+from stock.classes.CreonChecker import CreonChecker
+from stock.classes.CreonStockDetail import CreonStockDetail
 
 #rest_frameworks
 from rest_framework.response import Response
@@ -40,9 +41,16 @@ def Checker(request):
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def Starter(View):
+def Starter(request):
     starter = CreonChecker()
     starter.start_creon_plus()
     ss = HtsStarter("Success!")
     serializer = HtsStarterSerializer(ss)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def StockList(request):
+    stocklist = CreonStockDetail()
+    serializer = StockListSerializer(stocklist.get_stock_list(), many=True)
     return Response(serializer.data)
