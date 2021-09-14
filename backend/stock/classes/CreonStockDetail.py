@@ -26,3 +26,6 @@ class CreonStockDetail(metaclass=Singleton):
             stock = StockList(code, name, 2)
             stocklist.append(stock)
         return stocklist
+    
+    def get_stock_detail(self, code):
+        return None
