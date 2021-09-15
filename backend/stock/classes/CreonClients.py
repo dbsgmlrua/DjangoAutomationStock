@@ -7,9 +7,6 @@ from django.core.exceptions import ImproperlyConfigured
 from pywinauto import application
 from stock.classes.core.Singleton import Singleton
 
-#serializers
-from stock.serializerObjects.StockDetailObject import StockList, StockDetail, StockDetailOhlc
-
 # 크레온 플러스 공통 OBJECT
 cpCodeMgr = win32com.client.Dispatch('CpUtil.CpStockCode')
 cpStatus = win32com.client.Dispatch('CpUtil.CpCybos')
@@ -35,23 +32,3 @@ class CreonClients(metaclass=Singleton):
         self.CpCodeMgr = win32com.client.Dispatch("CpUtil.CpCodeMgr")
         self.StockChart = win32com.client.Dispatch('CpSysDib.StockChart')
 
-class CreonStockDetail():
-    def get_stock_list(self):
-        codeList = objCpCodeMgr.GetStockListByMarket(1) #거래소
-        codeList2 = objCpCodeMgr.GetStockListByMarket(2) #코스닥
-
-        stocklist = []
-        for i, code in enumerate(codeList):
-            name = objCpCodeMgr.CodeToName(code)
-            stdPrice = objCpCodeMgr.GetStockStdPrice(code)
-            stock = StockList(code, name, 1)
-            stocklist.append(stock)
-
-        for i, code in enumerate(codeList2):
-            secondCode = objCpCodeMgr.GetStockSectionKind(code)
-            name = objCpCodeMgr.CodeToName(code)
-            stdPrice = objCpCodeMgr.GetStockStdPrice(code)
-            stock = StockList(code, name, 2)
-            stocklist.append(stock)
-        
-        return stocklist
