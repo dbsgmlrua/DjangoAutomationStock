@@ -1,15 +1,10 @@
 from django.urls import path
 from . import views
-from .views import Starter, Checker, getStockList, getBalance, getStockDetail, getStockOhlc, customExceptionHandler
+from .views import Checker, Starter, StockList
 
 urlpatterns = [
-    path('test', views.thread, name='test-home'),
+    # path('', views.thread, name='test-home'),
+    path('checker', Checker),
     path('starter', Starter),
-    path('check', Checker),
-    path('stocks', getStockList),
-    path('balance', getBalance),
-    path('stocks/<slug:code>', getStockDetail),
-    path('stocks/<slug:code>/ohlc', getStockOhlc),
-    path('exceptions', customExceptionHandler)
-    
+    path('stocks', StockList)
 ]

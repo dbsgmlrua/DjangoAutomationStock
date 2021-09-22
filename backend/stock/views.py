@@ -1,25 +1,23 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views import View
-import json
 from stock.classes.MainThread import MainThread, MainThread2
 from multiprocessing import Process, Queue
 from rest_framework.decorators import api_view, permission_classes
+#stock.classes
+from stock.classes.CreonChecker import CreonChecker
+from stock.classes.CreonStockDetail import CreonStockDetail
+
+#rest_frameworks
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.views import exception_handler
-from stock.classes.CreaonChecker import CreonChecker, CreonStarter
-from stock.classes.CreonBalance import CreonBalance
-from stock.classes.CreonStockDetail import CreonStockDetail
-from stock.classes.exceptions.StockExceptionHandler import CustomApiException, ErrorCode
 
-#Serializer
+#serizlizers
 from stock.serializerObjects.HtsChecker import HtsChecker
 from stock.serializerObjects.HtsStarter import HtsStarter
-from rest_framework.response import Response
 from stock.serializers import HtsCheckerSerializer, HtsStarterSerializer, StockListSerializer, StockDetailSerializer, MyBalanceSerializer
-
-#TestCode
-from stock.classes.test.TestCodeDummy import ExceptionTestChecker
 
 def thread(request):
     a = MainThread()
@@ -30,6 +28,7 @@ def thread(request):
 
     th1.start()
     th2.start()
+
     return render(request, 'tester/home.html')
 
 @api_view(['GET'])
@@ -43,72 +42,15 @@ def Checker(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def Starter(request):
-    starter = CreonStarter()
+    starter = CreonChecker()
     starter.start_creon_plus()
     ss = HtsStarter("Success!")
     serializer = HtsStarterSerializer(ss)
     return Response(serializer.data)
 
-#주식리스트
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def getStockList(request):
-    balance = CreonStockDetail()
-    stockList = balance.get_stockList()
-    serializer = StockListSerializer(stockList, many=True)
+def StockList(request):
+    stocklist = CreonStockDetail()
+    serializer = StockListSerializer(stocklist.get_stock_list(), many=True)
     return Response(serializer.data)
-
-#주식디테일
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def getStockDetail(request, code):
-    balance = CreonStockDetail()
-    detail = balance.getStockDetail(code)
-    serializer = StockDetailSerializer(detail)
-    return Response(serializer.data)
-
-#주식디테일
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def getStockOhlc(request, code):
-    isPeriodType = request.query_params.get('isPeriodType')
-    fromDate = request.query_params.get('fromDate')
-    toDate = request.query_params.get('toDate')
-    dwm = request.query_params.get('dwm')
-    
-    balance = CreonStockDetail()
-    detail = balance.get_ohlc(code, 500)
-    serializer = StockDetailSerializer(detail)
-    return Response(serializer.data)
-
-#주식현재계좌
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def getBalance(request):
-    classes = CreonBalance()
-    balance = classes.get_balance()
-    serializer = MyBalanceSerializer(balance)
-    return Response(serializer.data)
-
-#구매하기
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def buyStock(request):
-    return Response()
-
-#팔기
-@api_view(['POST'])
-@permission_classes([AllowAny])
-def sellStock(request):
-    return Response()
-
-
-### 테스트 api ###
-
-
-#exception
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def customExceptionHandler(request):
-    ExceptionTestChecker("cpzm")
-    raise CustomApiException(500, "dmdel")

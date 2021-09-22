@@ -1,7 +1,8 @@
 class StockList(object):
-    def __init__(self, code, name):
+    def __init__(self, code, name, market):
         self.code = code
         self.name = name
+        self.market = market
 
 class StockDetail(object):
     def __init__(self, code, name, stdPrice):

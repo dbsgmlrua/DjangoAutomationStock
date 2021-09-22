@@ -1,19 +1,10 @@
 import os, sys, ctypes
-import win32com.client
-import os
-import time
 import json
-from django.core.exceptions import ImproperlyConfigured
+import time
 from pywinauto import application
-from stock.classes.exceptions.StockExceptionHandler import raise_exception_by_errorcode, ErrorCode
-# 크레온 플러스 공통 OBJECT
-cpCodeMgr = win32com.client.Dispatch('CpUtil.CpStockCode')
-cpStatus = win32com.client.Dispatch('CpUtil.CpCybos')
-cpTradeUtil = win32com.client.Dispatch('CpTrade.CpTdUtil')
-cpStock = win32com.client.Dispatch('DsCbo1.StockMst')
-cpBalance = win32com.client.Dispatch('CpTrade.CpTd6033')
-cpCash = win32com.client.Dispatch('CpTrade.CpTdNew5331A')
-cpOrder = win32com.client.Dispatch('CpTrade.CpTd0311')  
+from django.core.exceptions import ImproperlyConfigured
+
+from stock.classes.CreonClients import CreonClients
 
 with open(os.path.join(os.path.dirname(__file__), "secrets.json"), 'r') as f:
     secrets = json.loads(f.read())
@@ -27,12 +18,14 @@ def get_secret(setting, secrets=secrets):
 
 class CreonChecker():
     def check_creon_system(self):
-        print('check_creon_system()')
         """크레온 플러스 시스템 연결 상태를 점검한다."""
+        # 관리자 권한으로 프로세스 실행 여부
         if not ctypes.windll.shell32.IsUserAnAdmin():
             print('check_creon_system() : admin user -> FAILED')
             return False
-    
+        creonClients = CreonClients()
+        cpStatus = getattr(creonClients, 'CpCybos')
+        cpTradeUtil = getattr(creonClients, 'CpTdUtil')
         # 연결 여부 체크
         if (cpStatus.IsConnect == 0):
             print('check_creon_system() : connect to server -> FAILED')
@@ -43,12 +36,6 @@ class CreonChecker():
             print('check_creon_system() : init trade -> FAILED')
             return False
         return True
-    
-    def check_creon_nRet(self, nRet):
-        if nRet == 4:
-            raise_exception_by_errorcode(ErrorCode.TOO_MANY_REQUEST)
-
-class CreonStarter():
     def start_creon_plus(self):       
         os.system('taskkill /IM coStarter* /F /T')
         os.system('taskkill /IM CpStart* /F /T')
@@ -58,3 +45,4 @@ class CreonStarter():
 
         app = application.Application()
         app.start("C:\CREON\STARTER\coStarter.exe /prj:cp /id:{fId} /pwd:{fPwd} /pwdcert:{fPwdCert} /autostart".format(fId=get_secret("ID"), fPwd=get_secret("PW"), fPwdCert=get_secret("PWDCERT")))
+
