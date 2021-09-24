@@ -54,3 +54,11 @@ def StockList(request):
     stocklist = CreonStockDetail()
     serializer = StockListSerializer(stocklist.get_stock_list(), many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def StockDetail(request):
+    StockDetail = CreonStockDetail()
+    serializer = StockDetailSerializer(StockDetail.get_stock_detail())
+    return Response(serializer.data)
