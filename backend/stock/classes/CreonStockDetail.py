@@ -31,6 +31,7 @@ class CreonStockDetail(metaclass=Singleton):
     def get_stock_detail(self, code):
         creonClients = CreonClients()
         objStockMst = getattr(creonClients,'StockMst')
+        objStockMst.SetInputValue(0, code) 
         objStockMst.BlockRequest()
 
         code = objStockMst.GetHeaderValue(0)  # 종목코드
@@ -46,6 +47,6 @@ class CreonStockDetail(metaclass=Singleton):
         vol = objStockMst.GetHeaderValue(18)  # 거래량
         vol_value = objStockMst.GetHeaderValue(19)  # 거래대금
 
-        stockDetail = StockDetail(code, name, time, cprice, diff, op, high, low, offer, bid, vol, vol_value)
+        stockDetail = StockDetail(code=code, name=name, stdPrice=bid)
         
         return stockDetail 
