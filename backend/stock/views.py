@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 #stock.classes
 from stock.classes.CreonChecker import CreonChecker
 from stock.classes.CreonStockDetail import CreonStockDetail
+from stock.classes.CreonBalance import CreonBalance
 
 #rest_frameworks
 from rest_framework.response import Response
@@ -60,4 +61,11 @@ def StockList(request):
 def StockDetail(request, code):
     StockDetail = CreonStockDetail()
     serializer = StockDetailSerializer(StockDetail.get_stock_detail(code))
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def GetBalance(request):
+    StockBalance = CreonBalance()
+    serializer = MyBalanceSerializer(StockBalance.get_balance())
     return Response(serializer.data)

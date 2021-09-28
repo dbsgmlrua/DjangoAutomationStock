@@ -25,7 +25,8 @@ class StockDetailSerializer(serializers.Serializer):
     # ohlclist = OhlcSerializer(many=True)
 
 class MyBalanceStockListSerializer(serializers.Serializer):
-    name = serializers.IntegerField()
+    code = serializers.CharField(max_length=10)
+    name = serializers.CharField(max_length=100)
     price = serializers.IntegerField()
     profit = serializers.FloatField()
     qty = serializers.IntegerField()

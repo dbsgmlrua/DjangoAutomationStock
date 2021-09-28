@@ -6,7 +6,8 @@ class MyBalanceObject(object):
         self.stockList = stockList
 
 class MyBalanceStockListObject(object):
-    def __init__(self, name, price, profit, qty):
+    def __init__(self, code, name, price, profit, qty):
+        self.code = code
         self.name = name
         self.price = price
         self.profit = profit

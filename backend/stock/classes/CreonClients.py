@@ -8,16 +8,16 @@ from pywinauto import application
 from stock.classes.core.Singleton import Singleton
 
 # 크레온 플러스 공통 OBJECT
-cpCodeMgr = win32com.client.Dispatch('CpUtil.CpStockCode')
-cpStatus = win32com.client.Dispatch('CpUtil.CpCybos')
-cpTradeUtil = win32com.client.Dispatch('CpTrade.CpTdUtil')
-cpStock = win32com.client.Dispatch('DsCbo1.StockMst')
-cpOhlc = win32com.client.Dispatch('CpSysDib.StockChart')
-cpBalance = win32com.client.Dispatch('CpTrade.CpTd6033')
-cpCash = win32com.client.Dispatch('CpTrade.CpTdNew5331A')
-cpOrder = win32com.client.Dispatch('CpTrade.CpTd0311') 
-objCpCodeMgr = win32com.client.Dispatch("CpUtil.CpCodeMgr")
-cpOhlc = win32com.client.Dispatch('CpSysDib.StockChart')
+# cpCodeMgr = win32com.client.Dispatch('CpUtil.CpStockCode')
+# cpStatus = win32com.client.Dispatch('CpUtil.CpCybos')
+# cpTradeUtil = win32com.client.Dispatch('CpTrade.CpTdUtil')
+# cpStock = win32com.client.Dispatch('DsCbo1.StockMst')
+# cpOhlc = win32com.client.Dispatch('CpSysDib.StockChart')
+# cpBalance = win32com.client.Dispatch('CpTrade.CpTd6033')
+# cpCash = win32com.client.Dispatch('CpTrade.CpTdNew5331A')
+# cpOrder = win32com.client.Dispatch('CpTrade.CpTd0311') 
+# objCpCodeMgr = win32com.client.Dispatch("CpUtil.CpCodeMgr")
+# cpOhlc = win32com.client.Dispatch('CpSysDib.StockChart')
 
 class CreonClients(metaclass=Singleton):
     def __init__(self):
