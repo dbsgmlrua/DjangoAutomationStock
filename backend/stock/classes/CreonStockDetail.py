@@ -50,3 +50,21 @@ class CreonStockDetail(metaclass=Singleton):
         stockDetail = StockDetail(code=code, name=name, stdPrice=bid)
         
         return stockDetail 
+    
+    def get_stock_detail_ohlc(self, code, qty):
+        creonClients = CreonClients()
+        cpOhlc = getattr(creonClients, 'StockChart')
+
+        cpOhlc.SetInputValue(0, code)           # 종목코드
+        cpOhlc.SetInputValue(1, ord('2'))        # 1:기간, 2:개수
+        cpOhlc.SetInputValue(4, qty)             # 요청개수
+        cpOhlc.SetInputValue(5, [0, 2, 3, 4, 5]) # 0:날짜, 2~5:OHLC
+        cpOhlc.SetInputValue(6, ord('D'))        # D:일단위
+        cpOhlc.SetInputValue(9, ord('1'))        # 0:무수정주가, 1:수정주가
+
+        ohlcList = []
+        for i in range(count): 
+            data = StockDetailOhlc(date=cpOhlc.GetDataValue(0, i), o=cpOhlc.GetDataValue(1, i), h=cpOhlc.GetDataValue(2, i), l=cpOhlc.GetDataValue(3, i), c=cpOhlc.GetDataValue(4, i))
+            ohlcList.append(data)
+
+        return ohlcList

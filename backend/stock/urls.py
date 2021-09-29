@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import Checker, Starter, StockList, StockDetail, GetBalance
+from .views import Checker, Starter, StockList, StockDetail, StockDetailOhlc, GetBalance
 
 urlpatterns = [
     # path('', views.thread, name='test-home'),
@@ -8,5 +8,6 @@ urlpatterns = [
     path('starter', Starter),
     path('stocks', StockList),
     path('stocks/<slug:code>', StockDetail),
+    path('stocks/<slug:code>/ohlc', StockDetailOhlc),
     path('balance', GetBalance)
 ]

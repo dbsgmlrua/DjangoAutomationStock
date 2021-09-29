@@ -18,7 +18,7 @@ from rest_framework.views import exception_handler
 #serizlizers
 from stock.serializerObjects.HtsChecker import HtsChecker
 from stock.serializerObjects.HtsStarter import HtsStarter
-from stock.serializers import HtsCheckerSerializer, HtsStarterSerializer, StockListSerializer, StockDetailSerializer, MyBalanceSerializer
+from stock.serializers import HtsCheckerSerializer, HtsStarterSerializer, StockListSerializer, StockDetailSerializer, StockDetailOhlcSerializer, MyBalanceSerializer
 
 def thread(request):
     a = MainThread()
@@ -61,6 +61,13 @@ def StockList(request):
 def StockDetail(request, code):
     StockDetail = CreonStockDetail()
     serializer = StockDetailSerializer(StockDetail.get_stock_detail(code))
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def StockDetailOhlc(request, code):
+    StockDetail = CreonStockDetail()
+    serializer = StockDetailOhlcSerializer(StockDetail.get_stock_detail_ohlc(code), many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])

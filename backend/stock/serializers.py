@@ -11,18 +11,18 @@ class StockListSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=100)
     market = serializers.IntegerField()
 
-class OhlcSerializer(serializers.Serializer):
-    date = serializers.IntegerField()
-    o = serializers.IntegerField()
-    h = serializers.IntegerField()
-    l = serializers.IntegerField()
-    c = serializers.IntegerField()
-
 class StockDetailSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=10)
     name = serializers.CharField(max_length=100)
     stdPrice = serializers.IntegerField()
     # ohlclist = OhlcSerializer(many=True)
+
+class StockDetailOhlcSerializer(serializers.Serializer):
+    date = serializers.CharField(max_length=10)
+    o = serializers.FloatField()
+    h = serializers.FloatField()
+    l = serializers.FloatField()
+    c = serializers.FloatField()
 
 class MyBalanceStockListSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=10)
