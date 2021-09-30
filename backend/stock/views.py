@@ -8,6 +8,7 @@ from rest_framework.decorators import api_view, permission_classes
 from stock.classes.CreonChecker import CreonChecker
 from stock.classes.CreonStockDetail import CreonStockDetail
 from stock.classes.CreonBalance import CreonBalance
+from stock.classes.exceptions.StockExceptionHandler import CustomApiException, ErrorCode
 
 #rest_frameworks
 from rest_framework.response import Response
@@ -19,6 +20,9 @@ from rest_framework.views import exception_handler
 from stock.serializerObjects.HtsChecker import HtsChecker
 from stock.serializerObjects.HtsStarter import HtsStarter
 from stock.serializers import HtsCheckerSerializer, HtsStarterSerializer, StockListSerializer, StockDetailSerializer, StockDetailOhlcSerializer, MyBalanceSerializer
+
+#TestCode
+from stock.classes.test.TestCodeDummy import ExceptionTestChecker
 
 def thread(request):
     a = MainThread()
@@ -76,3 +80,11 @@ def GetBalance(request):
     StockBalance = CreonBalance()
     serializer = MyBalanceSerializer(StockBalance.get_balance())
     return Response(serializer.data)
+
+
+#exception
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def customExceptionHandler(request):
+    ExceptionTestChecker("cpzm")
+    raise CustomApiException(500, "dmdel")
