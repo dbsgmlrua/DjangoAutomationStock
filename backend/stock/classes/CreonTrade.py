@@ -4,6 +4,7 @@ import pandas as pd
 import time, calendar
 from stock.classes.core.Singleton import Singleton
 
+
 class CreonTradeBase(metaclass=Singleton):
     def CheckBuying(self, code):
         print("CheckBuying!")
