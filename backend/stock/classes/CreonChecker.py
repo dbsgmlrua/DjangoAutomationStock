@@ -3,7 +3,6 @@ import json
 import time
 from pywinauto import application
 from django.core.exceptions import ImproperlyConfigured
-
 from stock.classes.CreonClients import CreonClients
 
 with open(os.path.join(os.path.dirname(__file__), "secrets.json"), 'r') as f:
